@@ -6,7 +6,9 @@ import os
 import numpy as np
 from collections import namedtuple
 
-
+'''
+torch.nn.Module = base class for creating any type of networks in pytorch
+'''
 class DQNModel(torch.nn.Module):
     """
     DQN model with one fully connected layer, written in pytorch.
@@ -16,7 +18,7 @@ class DQNModel(torch.nn.Module):
         self.params = parameter
         # different layers. Two layers.
         self.policy_layer = torch.nn.Sequential(
-            torch.nn.Linear(input_size, hidden_size, bias=True),
+            torch.nn.Linear(input_size, hidden_size, bias=True),    # bias=True indicates if we are using a bias variable
             torch.nn.Dropout(0.5),
             torch.nn.LeakyReLU(),
             torch.nn.Linear(hidden_size,hidden_size),
@@ -29,7 +31,7 @@ class DQNModel(torch.nn.Module):
         #self.policy_layer = torch.nn.Linear(input_size, output_size, bias=True)
 
     def forward(self, x):
-        if torch.cuda.is_available():
+        if torch.cuda.is_available():   # is_available() function checks if CUDA is available
             x.cuda()
         q_values = self.policy_layer(x)
         return q_values
